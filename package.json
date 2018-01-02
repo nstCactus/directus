@@ -68,5 +68,8 @@
     "requirejs": "~2.1.20",
     "run-sequence": "~1.0.2",
     "xo": "^0.18.1"
+  },
+  "dependencies": {
+    "deployator": "^1.1.0"
   }
 }

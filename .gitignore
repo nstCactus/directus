@@ -38,3 +38,6 @@ thumbnail/**/
 .gulp-scss-cache
 node_modules
 storage
+
+# Can't touch this!
+/_deployment/secrets.js
