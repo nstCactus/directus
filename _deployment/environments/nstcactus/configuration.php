@@ -8,23 +8,23 @@
 
 return [
     'session' => [
-        'prefix' => 'directus6_'
+        'prefix' => 'directus6_',
     ],
 
     'default_language' => 'fr',
 
     'filesystem' => [
-        'adapter' => 'local',
+        'adapter'        => 'local',
         // By default media directory are located at the same level of directus root
         // To make them a level up outsite the root directory
         // use this instead
         // Ex: 'root' => realpath(BASE_PATH.'/../storage/uploads'),
         // Note: BASE_PATH constant doesn't end with trailing slash
-        'root' => BASE_PATH . '/storage/uploads',
+        'root'           => BASE_PATH . '/storage/uploads',
         // This is the url where all the media will be pointing to
         // here all assets will be (yourdomain)/storage/uploads
         // same with thumbnails (yourdomain)/storage/uploads/thumbs
-        'root_url' => '/directus/storage/uploads',
+        'root_url'       => '/directus/storage/uploads',
         'root_thumb_url' => '/directus/storage/uploads/thumbs',
         //   'key'    => 's3-key',
         //   'secret' => 's3-key',
@@ -35,15 +35,15 @@ return [
 
     'HTTP' => [
         'forceHttps' => false,
-        'isHttpsFn' => function () {
+        'isHttpsFn'  => function () {
             // Override this check for custom arrangements, e.g. SSL-termination @ load balancer
             return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
-        }
+        },
     ],
 
     'mail' => [
-        'from' => array(
-            'postmaster@yohann-bianchi.ovh' => 'Le GAG (dev)'
+        'from'      => array(
+            'postmaster@yohann-bianchi.ovh' => 'Le GAG (dev)',
         ),
         'transport' => 'smtp',
         'host'      => 'smtp.mailgun.org',
@@ -53,12 +53,12 @@ return [
     ],
 
     'cors' => [
-        'enabled' => false,
-        'origin' => '*',
+        'enabled' => true,
+        'origin'  => '*',
         'headers' => [
-            ['Access-Control-Allow-Headers', 'Authorization, Content-Type, Access-Control-Allow-Origin'],
-            ['Access-Control-Allow-Credentials', 'false']
-        ]
+            'Access-Control-Allow-Headers'     => 'Authorization, Content-Type, Access-Control-Allow-Origin',
+            'Access-Control-Allow-Credentials' => 'false',
+        ],
     ],
 
     'hooks' => [
@@ -70,16 +70,16 @@ return [
             switch ($tableName) {
                 // ...
             }
-        }
+        },
     ],
 
     'filters' => [
         // 'table.insert.products:before' => \Directus\Customs\Hooks\BeforeInsertProducts::class
     ],
 
-    'feedback' => [
+    'feedback'       => [
         'token' => '151233563362a8697a600d33717ac845934e2641',
-        'login' => true
+        'login' => true,
     ],
 
     // These tables will not be loaded in the directus schema
@@ -122,33 +122,33 @@ return [
     ],
 
     'thumbnailer' => [
-        '404imageLocation' => __DIR__ . '/../thumbnail/img-not-found.png',
+        '404imageLocation'             => __DIR__ . '/../thumbnail/img-not-found.png',
         'supportedThumbnailDimensions' => [
             // width x height
             // '100x100',
             // '300x200',
             // '100x200',
         ],
-        'supportedQualityTags' => [
-            'poor' => 25,
-            'good' => 50,
+        'supportedQualityTags'         => [
+            'poor'   => 25,
+            'good'   => 50,
             'better' => 75,
-            'best' => 100,
+            'best'   => 100,
         ],
-        'supportedActions' => [
+        'supportedActions'             => [
             'contain' => [
                 'options' => [
-                    'resizeCanvas' => false, // http://image.intervention.io/api/resizeCanvas
-                    'position' => 'center',
-                    'resizeRelative' => false,
+                    'resizeCanvas'     => false, // http://image.intervention.io/api/resizeCanvas
+                    'position'         => 'center',
+                    'resizeRelative'   => false,
                     'canvasBackground' => 'ccc', // http://image.intervention.io/getting_started/formats
-                 ]
-             ],
-            'crop' => [
+                ],
+            ],
+            'crop'    => [
                 'options' => [
                     'position' => 'center', // http://image.intervention.io/api/fit
-                 ]
+                ],
             ],
-        ]
+        ],
     ],
 ];

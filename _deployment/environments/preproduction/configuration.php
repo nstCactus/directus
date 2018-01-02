@@ -59,8 +59,13 @@ return [
     ],
 
     'cors' => [
-        'enabled' => false,
-        'origin'  => '*', // can be a comma separated value or array of hosts
+        'enabled' => true,
+        'origin'  => [
+            'http://localhost',
+            'https://localhost',
+            'http://gag.yohann-bianchi.ovh',
+            'https://gag.yohann-bianchi.ovh',
+        ],
         'headers' => [
             'Access-Control-Allow-Headers'     => 'Authorization, Content-Type, Access-Control-Allow-Origin',
             'Access-Control-Allow-Credentials' => 'false',
