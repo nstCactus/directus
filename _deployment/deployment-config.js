@@ -42,7 +42,6 @@ module.exports = function (options) {
 
       share: {
         storage:      'storage',
-        thumbnail:    'thumbnail',
       },
 
       exclude: [
