@@ -139,6 +139,7 @@ return [
             // '100x100',
             // '300x200',
             // '100x200',
+            '480x270',
         ],
         'supportedQualityTags'         => [
             'poor'   => 25,
