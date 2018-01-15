@@ -153,4 +153,12 @@ return [
             ],
         ],
     ],
+
+    'auth' => [
+        'facebook' => [
+            'client_id'         => '1768198359878291',
+            'client_secret'     => '78b9e54077e57e78ffa647afd63cdf21',
+            'graph_api_version' => 'v2.10',
+        ],
+    ],
 ];
