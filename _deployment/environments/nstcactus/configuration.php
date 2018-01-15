@@ -160,5 +160,9 @@ return [
             'client_secret'     => '78b9e54077e57e78ffa647afd63cdf21',
             'graph_api_version' => 'v2.10',
         ],
+        'google'   => [
+            'client_id'     => '917727241265-ijrq8rbtn40jun1cp0r4hj8l1qiq5oi4.apps.googleusercontent.com',
+            'client_secret' => 'cChmdHEbchoLT5FaaOGoiZxw',
+        ],
     ],
 ];
