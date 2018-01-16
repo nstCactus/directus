@@ -1,36 +1,7 @@
 'use strict';
 
-const fs   = require('fs');
-const path = require('path');
 const secrets = require('./secrets');
-
-function onBeforeDeployPreproduction(context, done) {
-  context.logger.subhead('Backup current configuration');
-  //@formatter:off
-  fs.renameSync(path.join(__dirname, '../api/config.php'),        path.join(__dirname, '../api/config.php.local'));
-  fs.renameSync(path.join(__dirname, '../api/configuration.php'), path.join(__dirname, '../api/configuration.php.local'));
-
-  context.logger.subhead('Copy preproduction configuration');
-  fs.copyFileSync(path.join(__dirname, 'environments/preproduction/config.php'),        path.join(__dirname, '../api/config.php'));
-  fs.copyFileSync(path.join(__dirname, 'environments/preproduction/configuration.php'), path.join(__dirname, '../api/configuration.php'));
-  //@formatter:on
-
-  done();
-}
-
-function onAfterDeployPreproduction(context, done) {
-  context.logger.subhead('Restore configuration');
-
-  //@formatter:off
-  fs.unlink(path.join(__dirname, '../api/config.php'));
-  fs.unlink(path.join(__dirname, '../api/configuration.php'));
-
-  fs.renameSync(path.join(__dirname, '../api/config.php.local'),        path.join(__dirname, '../api/config.php'));
-  fs.renameSync(path.join(__dirname, '../api/configuration.php.local'), path.join(__dirname, '../api/configuration.php'));
-  //@formatter:on
-
-  done();
-}
+const path = require('path');
 
 module.exports = function (options) {
   // @see https://www.npmjs.com/package/ssh-deploy-release
@@ -41,12 +12,22 @@ module.exports = function (options) {
       localPath: '.',
 
       share: {
-        storage:      'storage',
+        storage:             'storage',
+        'config.php':        'api/config.php',
+        'configuration.php': 'api/configuration.php',
+        'api-logs':          'api/logs',
       },
 
       exclude: [
-        'api/config.php.local',
-        'api/configuration.php.local',
+        'api/config.php',
+        'api/configuration.php',
+        'api/config_sample.php',
+        'api/configuration_sample.php',
+
+        'api/logs/**',
+        '_deployment/**',
+        'storage/**',
+        'thumbnail/**',
       ],
 
       create: [
@@ -61,13 +42,25 @@ module.exports = function (options) {
     // Environment specific configuration
     environments: {
       preproduction: {
-        host:           'gag.yohann-bianchi.ovh',
-        username:       secrets.preproduction.username,
-        password:       secrets.preproduction.password,
-        mode:           'synchronize',
-        deployPath:     `/home/${secrets.preproduction.username}/webapps/gag_backend`,
-        onBeforeDeploy: onBeforeDeployPreproduction,
-        onAfterDeploy:  onAfterDeployPreproduction,
+        host:       'gag.yohann-bianchi.ovh',
+        username:   secrets.preproduction.username,
+        password:   secrets.preproduction.password,
+        mode:       'synchronize',
+        deployPath: `/home/${secrets.preproduction.username}/webapps/gag_backend`,
+
+        onBeforeLink: (context, done) => {
+          context.logger.subhead('Hard link custom php CGI');
+
+          const targetPath = path.join(context.options.deployPath, context.options.sharedFolder, 'php71.cgi');
+          const linkPath = path.join(context.release.path, 'php71.cgi');
+
+          const command = `ln ${targetPath} ${linkPath}`;
+          const showLog = true;
+
+          context.remote.exec(command, () => {
+            done();
+          }, showLog);
+        },
       },
     },
   };
